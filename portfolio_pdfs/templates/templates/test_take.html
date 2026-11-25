@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ test.title }} — AI ұстаз</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #f1f5f9;
+      color: #0f172a;
+      margin: 0;
+      padding: 32px 16px;
+    }
+    .container {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 18px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .sub {
+      color: #64748b;
+      font-size: 13.5px;
+      margin: 0;
+    }
+    label.field-label {
+      display: block;
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #334155;
+      margin-bottom: 6px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      background: #f8fafc;
+      margin-bottom: 14px;
+    }
+    input[type="text"]:focus {
+      outline: none;
+      background: #fff;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+    .q-title {
+      font-weight: 700;
+      margin-bottom: 12px;
+      font-size: 15.5px;
+      color: #0f172a;
+    }
+    .opt {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: 0.15s;
+    }
+    .opt:hover {
+      background: #f8fafc;
+      border-color: #93c5fd;
+    }
+    .opt input[type="radio"] {
+      margin: 0;
+      cursor: pointer;
+    }
+    .btn {
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .btn:hover {
+      background: #1d4ed8;
+    }
+    .result-box {
+      background: #ecfdf5;
+      border: 1px solid #6ee7b7;
+      color: #065f46;
+      padding: 18px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1>{{ test.title }}</h1>
+      <p class="sub">AI ұстаз — Тәрбие тесті</p>
+    </div>
+
+    {% if submitted %}
+      <div class="card">
+        <div class="result-box">
+          {{ student_name }}, тест аяқталды! Нәтижеңіз: {{ score }} / {{ total }}.
+        </div>
+      </div>
+    {% else %}
+      <form method="post" action="/test/{{ test.id }}/submit">
+        <div class="card">
+          <label class="field-label" for="student_name">Студенттің аты-жөні *</label>
+          <input id="student_name" type="text" name="student_name" required placeholder="Мысалы: Асқар Серіков" />
+
+          <label class="field-label" for="student_group">Тобы</label>
+          <input id="student_group" type="text" name="student_group" placeholder="Мысалы: БҚ-201" />
+        </div>
+
+        {% for q in test.questions %}
+          <div class="card">
+            <div class="q-title">{{ q.question }}</div>
+            {% for opt in q.options %}
+              <label class="opt">
+                <input type="radio" name="q_{{ q.index }}" value="{{ opt.key }}" required />
+                <span><strong>{{ opt.key }})</strong> {{ opt.label }}</span>
+              </label>
+            {% endfor %}
+          </div>
+        {% endfor %}
+
+        <button type="submit" class="btn">Тестті тапсыру</button>
+      </form>
+    {% endif %}
+  </div>
+</body>
+</html>

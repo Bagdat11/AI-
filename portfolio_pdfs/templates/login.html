@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ t.login_heading }} — Sheberlik Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: radial-gradient(circle at top left, #1e293b, #0f172a);
+      min-height: 100vh;
+      margin: 0;
+      padding: 40px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #0f172a;
+    }
+    .top-lang {
+      display: flex;
+      gap: 6px;
+      background: rgba(255,255,255,0.08);
+      padding: 4px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+    }
+    .top-lang a {
+      text-decoration: none;
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 7px;
+    }
+    .top-lang a.active { background: #2563eb; color: #fff; }
+
+    .hero { text-align: center; color: #f8fafc; margin-bottom: 28px; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(59, 130, 246, 0.2);
+      border: 1px solid rgba(59, 130, 246, 0.4);
+      color: #93c5fd;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .hero h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.02em; }
+    .hero p { margin: 0; color: #94a3b8; font-size: 14.5px; }
+
+    .msg {
+      width: 100%;
+      max-width: 860px;
+      margin-bottom: 18px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .error { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+    .info { background: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+
+    .container {
+      width: 100%;
+      max-width: 860px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: #ffffff;
+      padding: 28px;
+      border-radius: 18px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+    .card h2 {
+      margin: 0 0 6px;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .card-sub { font-size: 13px; color: #64748b; margin-bottom: 18px; }
+    label { display: block; margin: 12px 0 6px; font-size: 13px; font-weight: 600; color: #334155; }
+    input {
+      width: 100%;
+      padding: 11px 13px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      background: #f8fafc;
+    }
+    input:focus {
+      outline: none;
+      background: #fff;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background: #2563eb;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 14.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    button:hover { background: #1d4ed8; }
+    button.green { background: #10b981; }
+    button.green:hover { background: #059669; }
+  </style>
+</head>
+<body>
+  <div class="top-lang">
+    <a class="{% if lang == 'kk' %}active{% endif %}" href="/lang/kk?next=/login">ҚАЗ</a>
+    <a class="{% if lang == 'ru' %}active{% endif %}" href="/lang/ru?next=/login">РУС</a>
+  </div>
+
+  <div class="hero">
+    <div class="hero-badge"><i data-lucide="graduation-cap" style="width:16px;height:16px;"></i> {{ t.hero_badge }}</div>
+    <h1>Sheberlik Portfolio</h1>
+    <p>{{ t.hero_desc }}</p>
+  </div>
+
+  {% if error %}<div class="msg error">{{ error }}</div>{% endif %}
+  {% if info %}<div class="msg info">{{ info }}</div>{% endif %}
+
+  <div class="container">
+    <div class="card">
+      <h2><i data-lucide="log-in" style="width:20px;height:20px;color:#2563eb;"></i> {{ t.login_heading }}</h2>
+      <div class="card-sub">{{ t.login_sub }}</div>
+      <form method="post" action="/login">
+        <label>{{ t.field_login }}</label>
+        <input type="text" name="login" required placeholder="{{ t.placeholder_login }}" />
+        <label>{{ t.field_password }}</label>
+        <input type="password" name="password" required placeholder="••••••••" />
+        <button type="submit">{{ t.btn_login }}</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h2><i data-lucide="user-plus" style="width:20px;height:20px;color:#10b981;"></i> {{ t.reg_heading }}</h2>
+      <div class="card-sub">{{ t.reg_sub }}</div>
+      <form method="post" action="/register">
+        <label>{{ t.field_fullname }}</label>
+        <input type="text" name="full_name" required placeholder="{{ t.placeholder_fullname }}" />
+        <label>{{ t.field_subject }}</label>
+        <input type="text" name="subject" value="{{ t.default_subject }}" />
+        <label>{{ t.field_login }}</label>
+        <input type="text" name="login" required placeholder="{{ t.placeholder_reg_login }}" />
+        <label>{{ t.field_password }}</label>
+        <input type="password" name="password" required placeholder="{{ t.placeholder_reg_pass }}" />
+        <button type="submit" class="green">{{ t.btn_register }}</button>
+      </form>
+    </div>
+  </div>
+
+  <script>lucide.createIcons();</script>
+</body>
+</html>
